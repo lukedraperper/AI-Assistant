@@ -2,12 +2,24 @@ from urllib.request import urlopen as uReq
 from urllib.request import Request
 from bs4 import BeautifulSoup as soup
 import time
-import contextlib
-import webbrowser
 import requests
-import re, requests, subprocess, urllib.parse, urllib.request
+import requests
  
-
+# def Sunrise():
+#     global sunrise
+#     time = str(GetWeather("sunrise"))
+#     if now[3] < int(time[0:1].strip()) and now[4] < int(time[3:4]):
+#         sunrise = f"time is at {time}, "
+#     elif now[3] == int(time[0:1].strip()) and now[4] == int(time[3:4]):
+#         sunrise = f"time is at {time}, "
+#     else:
+#         sunrise = ""
+#     # tomorrow = page.find("li", {"id":"tabDay1"})
+#     # tomorrow_high = tomorrow.find("span", {"class":"tab-temp-high"}).text
+#     # tomorrow_low = tomorrow.find("span", {"class":"tab-temp-low"}).text
+#     # tomorrow_high = tomorrow_high.replace("°", " Degrees")
+#     # tomorrow_low = tomorrow_low.replace("°", " Degrees")    
+#     weather = f'The weather in Cheltenham is {GetWeather("temperature")} degrees. {GetWeather("forecast")}'
 def GetWeather(type):
     now = time.localtime()
     # Requests.
@@ -21,7 +33,7 @@ def GetWeather(type):
 
     # Today
 
-    # Temeperature
+    # Temperature
     currentTemp = round(((url["main"]["temp"])- 273.15))
     currentTemp = str(currentTemp).replace("-", "Minus ")
     maxTemp = round(((url["main"]["temp_max"])- 273.15))
@@ -34,8 +46,9 @@ def GetWeather(type):
     sunrise = sunrise.replace("0","",1).replace(":"," ")
 
     # Forecast
-    forecast = page.find("p",{"class":"wr-c-text-forecast__summary-text gel-long-primer gs-u-mt-"}).text
-
+    forecast = page.find("div",{"class":"ssrcss-7uxr49-RichTextContainer e5tfeyi1"})
+    text = forecast.findAll("p",{"class":"ssrcss-1q0x1qg-Paragraph e1jhz7w10"})[1]
+    text = text.text
     # Tomorrow
 
 
@@ -49,7 +62,7 @@ def GetWeather(type):
     if type == "maxmintemperature":
         return maxTemp, minTemp
     if type == "tomorrowtemperature":
-        return tomorrowtemperature
+        pass
     
     if type == "sunrise":
         return sunrise
@@ -57,3 +70,5 @@ def GetWeather(type):
         return str(forecast)
     else:
         return "That is not a type."
+    
+print(GetWeather("forecast"))

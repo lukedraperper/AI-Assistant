@@ -5,7 +5,14 @@ import contextlib
 with contextlib.redirect_stdout(None):
     import pygame
 
-def StartUp():
+now = ""
+greeting = ""
+sunrise = ""
+weather = ""
+
+
+def Time():
+    global greeting
     # Time
     now = time.localtime()
     if now[4] > 0 and now[4] < 30:
@@ -32,24 +39,31 @@ def StartUp():
             greeting = f"Good evening, it's {now[3]-12} PM, "
         else:
             greeting = f"Good evening, it's {seconddigit} {firstdigit} PM, "
-    sunrise = str(GetWeather("sunrise"))
-    if now[3] < int(sunrise[0:1].strip()) and now[4] < int(sunrise[3:4]):
-        sunrisemessage = f"Sunrise is at {sunrise}, "
-    elif now[3] == int(sunrise[0:1].strip()) and now[4] == int(sunrise[3:4]):
-        sunrisemessage = f"Sunrise is at {sunrise}, "
-    else:
-        sunrisemessage = ""
 
+def Weather():
+    global sunrise
+    time = str(GetWeather("sunrise"))
+    if now[3] < int(time[0:1].strip()) and now[4] < int(time[3:4]):
+        sunrise = f"time is at {time}, "
+    elif now[3] == int(time[0:1].strip()) and now[4] == int(time[3:4]):
+        sunrise = f"time is at {time}, "
+    else:
+        sunrise = ""
     # tomorrow = page.find("li", {"id":"tabDay1"})
     # tomorrow_high = tomorrow.find("span", {"class":"tab-temp-high"}).text
     # tomorrow_low = tomorrow.find("span", {"class":"tab-temp-low"}).text
     # tomorrow_high = tomorrow_high.replace("°", " Degrees")
     # tomorrow_low = tomorrow_low.replace("°", " Degrees")    
-    weathermessage = f'The weather in Cheltenham is {GetWeather("temperature")} degrees. {GetWeather("forecast")}'
-    sayMessage = f"{greeting}{sunrisemessage}{weathermessage}"
-    pygame.mixer.init()
-    pygame.mixer.music.load(os.path.dirname(os.path.realpath(__file__)) + "\Sounds\\startsound.mp3")
-    pygame.mixer.music.play()
-    pygame.mixer.music.load(os.path.dirname(os.path.realpath(__file__))+ "\Sounds\\endsound.mp3")
-    pygame.mixer.music.play()
-    pygame.mixer.quit()
+    weather = f'The weather in Cheltenham is {GetWeather("temperature")} degrees. {GetWeather("forecast")}'
+    
+
+# pygame.mixer.init()
+# pygame.mixer.music.load(os.path.dirname(os.path.realpath(__file__)) + "\Sounds\\startsound.mp3")
+# pygame.mixer.music.play()
+# pygame.mixer.music.load(os.path.dirname(os.path.realpath(__file__))+ "\Sounds\\endsound.mp3")
+# pygame.mixer.music.play()
+# pygame.mixer.quit()
+Time()
+Weather()
+sayMessage = f"{greeting}{sunrise}{weather}"
+print(sayMessage)

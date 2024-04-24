@@ -1,8 +1,5 @@
 import speech_recognition as sr
-import keyboard
-import sys
-sys.path.append('../')
-from CommandHandler import commandhandler
+import telegram
 
 def AudioRecorder():
     r = sr.Recognizer()
@@ -26,10 +23,3 @@ def AudioRecorder():
         if UserInput != None:
             return UserInput
         
-def Listener():
-    print("Started.")
-    while True:
-        if keyboard.is_pressed("f21"):
-            print("Detected.")
-            UserInput = AudioRecorder()
-            commandhandler.Responder(UserInput)

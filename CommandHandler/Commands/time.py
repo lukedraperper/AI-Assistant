@@ -1,12 +1,16 @@
 from datetime import datetime
 import pytz
+import time
 
-def Time(voice_data):
-    if voice_data.endswith("time") or voice_data.endswith("is it"):
+def Time(query):
+    now = time.localtime()
+    hour = now[3]
+    minute = now[4]
+    if query.endswith("time") or query.endswith("is it"):
         now = datetime.now()
         time = now.strftime("%I:%M %p")
     else:
-        zone = voice_data.split("in", 1)[1].strip().lower()
+        zone = query.split("in", 1)[1].strip().lower()
         zones = []
         for z in pytz.all_timezones:
             zones.append(z.split("/",1)[1].lower())
@@ -19,3 +23,4 @@ def Time(voice_data):
             pass
     time = str(time)
     return time
+print(hour, minute)
